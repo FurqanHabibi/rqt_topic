@@ -40,8 +40,15 @@ class Topic(Plugin):
     def __init__(self, context):
         super(Topic, self).__init__(context)
         self.setObjectName('Topic')
+        
+        selected_topics = []
+        for topic_type in context.argv():
+            topic, type = topic_type.split()
+            selected_topics.append((topic, type))
+        if len(selected_topics) == 0:
+            selected_topics = None
 
-        self._widget = TopicWidget(self)
+        self._widget = TopicWidget(self, selected_topics=selected_topics)
 
         self._widget.start()
         if context.serial_number() > 1:
